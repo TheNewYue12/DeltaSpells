@@ -12,7 +12,7 @@
 			},
 			"bones": [
 				{
-					"name": "rudebuster_projectile",
+					"name": "rude_buster_projectile",
 					"pivot": [0, 21, -5],
 					"rotation": [45, 0, 0],
 					"cubes": [
