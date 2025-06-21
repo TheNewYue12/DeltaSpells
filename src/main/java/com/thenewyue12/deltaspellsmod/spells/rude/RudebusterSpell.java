@@ -1,14 +1,14 @@
 package com.thenewyue12.deltaspellsmod.spells.rude;
 
-import com.thenewyue12.deltaspellsmod.DeltaSpellsMod;
-import com.thenewyue12.deltaspellsmod.registry.DSSchoolRegistry;
-import com.thenewyue12.deltaspellsmod.registry.DSSoundRegistry;
 import io.redspace.ironsspellbooks.api.config.DefaultConfig;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
+import com.thenewyue12.deltaspellsmod.DeltaSpellsMod;
+import com.thenewyue12.deltaspellsmod.entity.spells.rudebuster.RudeBusterProjectile;
+import com.thenewyue12.deltaspellsmod.registry.DSSchoolRegistry;
+import com.thenewyue12.deltaspellsmod.registry.DSSoundRegistry;
+import com.thenewyue12.deltaspellsmod.registry.DSEntityRegistry;
 import io.redspace.ironsspellbooks.api.spells.*;
 import io.redspace.ironsspellbooks.api.util.Utils;
-import io.redspace.ironsspellbooks.entity.spells.fireball.MagicFireball;
-import io.redspace.ironsspellbooks.registries.SoundRegistry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -47,7 +47,7 @@ public class RudebusterSpell extends AbstractRudeSpell {
 
     @Override
     public CastType getCastType() {
-        return CastType.LONG;
+        return CastType.INSTANT;
     }
 
     @Override
@@ -69,15 +69,15 @@ public class RudebusterSpell extends AbstractRudeSpell {
     public void onCast(Level world, int spellLevel, LivingEntity entity, CastSource castSource, MagicData playerMagicData) {
         Vec3 origin = entity.getEyePosition();
 
-        MagicFireball fireball = new MagicFireball(world, entity);
+        RudeBusterProjectile rude_buster_slash = new RudeBusterProjectile(world, entity);
 
-        fireball.setDamage(getDamage(spellLevel, entity));
-        fireball.setExplosionRadius(getRadius(spellLevel, entity));
+        rude_buster_slash.setDamage(getDamage(spellLevel, entity));
 
-        fireball.setPos(origin.add(entity.getForward()).subtract(0, fireball.getBbHeight() / 2, 0));
-        fireball.shoot(entity.getLookAngle());
 
-        world.addFreshEntity(fireball);
+        rude_buster_slash.setPos(origin.add(entity.getForward()).subtract(0, rude_buster_slash.getBbHeight() / 2, 0));
+        rude_buster_slash.shoot(entity.getLookAngle());
+
+        world.addFreshEntity(rude_buster_slash);
         super.onCast(world, spellLevel, entity, castSource, playerMagicData);
     }
 
@@ -85,7 +85,5 @@ public class RudebusterSpell extends AbstractRudeSpell {
         return 5 + 5 * getSpellPower(spellLevel, caster);
     }
 
-    public int getRadius(int spellLevel, LivingEntity caster) {
-        return 2 + (int) getSpellPower(spellLevel, caster);
-    }
+
 }

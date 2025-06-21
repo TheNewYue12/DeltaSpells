@@ -6,6 +6,6 @@ public abstract class AbstractRudeSpell extends AbstractSpell {
     // Yeah this is pretty much it
     @Override
     public boolean allowLooting() {
-        return false;
+        return true;
     }
 }
