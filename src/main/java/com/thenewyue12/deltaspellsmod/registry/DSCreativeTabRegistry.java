@@ -44,6 +44,10 @@ public class DSCreativeTabRegistry {
                             event.accept(itemstack);
                         }
                     });
+            if (event.getTab() == BuiltInRegistries.CREATIVE_MODE_TAB.get(CreativeModeTabs.NATURAL_BLOCKS)) {
+                event.accept(DSItemRegistry.SPELL.get());
+            }
+
         }
 
     }

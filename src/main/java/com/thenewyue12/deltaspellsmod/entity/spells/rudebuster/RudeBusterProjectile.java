@@ -59,7 +59,7 @@ public class RudeBusterProjectile extends AbstractMagicProjectile {
     protected void onHitEntity(EntityHitResult entityHitResult) {
         super.onHitEntity(entityHitResult);
         var target = entityHitResult.getEntity();
-        DamageSources.applyDamage(target, getDamage(), DSSpellRegistry.RUDEBUSTER_SPELL.get().getDamageSource(this, getOwner()));
+        DamageSources.applyDamage(target, getDamage(), DSSpellRegistry.RUDE_BUSTER.get().getDamageSource(this, getOwner()));
         discard();
     }
 

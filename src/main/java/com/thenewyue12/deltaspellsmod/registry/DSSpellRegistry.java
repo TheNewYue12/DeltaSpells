@@ -19,6 +19,6 @@ public class DSSpellRegistry {
         return SPELLS.register(spell.getSpellName(), () -> spell);
     }
 
-    public static final RegistryObject<AbstractSpell> RUDEBUSTER_SPELL = registerSpell(new RudebusterSpell());
+    public static final RegistryObject<AbstractSpell> RUDE_BUSTER = registerSpell(new RudebusterSpell());
 
 }
