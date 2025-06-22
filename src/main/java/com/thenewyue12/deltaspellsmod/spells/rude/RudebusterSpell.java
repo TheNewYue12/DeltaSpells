@@ -65,6 +65,7 @@ public class RudebusterSpell extends AbstractRudeSpell {
         return Optional.of(DSSoundRegistry.RUDEBUSTER_CAST.get());
     }
 
+
     @Override
     public void onCast(Level world, int spellLevel, LivingEntity entity, CastSource castSource, MagicData playerMagicData) {
         Vec3 origin = entity.getEyePosition();
