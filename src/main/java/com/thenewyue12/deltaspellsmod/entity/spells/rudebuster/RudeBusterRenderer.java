@@ -14,7 +14,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 
 public class RudeBusterRenderer extends EntityRenderer<RudeBusterProjectile>  {
-    public static final ModelLayerLocation MODEL_LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(DeltaSpellsMod.MODID, "geo/rude_buster_slash_model.geo.jsonFailed to create model for "), "main");
+    public static final ModelLayerLocation MODEL_LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(DeltaSpellsMod.MODID, "rude_buster_slash_model"), "main");
     private static final ResourceLocation BASE_TEXTURE = DeltaSpellsMod.id("textures/entity/rude_buster_projectile/texture.png");
 
 

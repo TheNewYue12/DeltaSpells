@@ -1,14 +1,15 @@
 package com.thenewyue12.deltaspellsmod.spells.rude;
 
+
 import io.redspace.ironsspellbooks.api.config.DefaultConfig;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
+import io.redspace.ironsspellbooks.api.spells.*;
+import io.redspace.ironsspellbooks.api.util.AnimationHolder;
+import io.redspace.ironsspellbooks.api.util.Utils;
 import com.thenewyue12.deltaspellsmod.DeltaSpellsMod;
 import com.thenewyue12.deltaspellsmod.entity.spells.rudebuster.RudeBusterProjectile;
 import com.thenewyue12.deltaspellsmod.registry.DSSchoolRegistry;
 import com.thenewyue12.deltaspellsmod.registry.DSSoundRegistry;
-import com.thenewyue12.deltaspellsmod.registry.DSEntityRegistry;
-import io.redspace.ironsspellbooks.api.spells.*;
-import io.redspace.ironsspellbooks.api.util.Utils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -16,6 +17,8 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+
+import net.minecraft.world.entity.MobType;
 
 import java.util.List;
 import java.util.Optional;
@@ -83,8 +86,17 @@ public class RudebusterSpell extends AbstractRudeSpell {
     }
 
     public float getDamage(int spellLevel, LivingEntity caster) {
+
         return 5 + 5 * getSpellPower(spellLevel, caster);
     }
 
+    @Override
+    public AnimationHolder getCastStartAnimation() {
+        return SpellAnimations.ONE_HANDED_HORIZONTAL_SWING_ANIMATION;
+    }
 
+    @Override
+    public AnimationHolder getCastFinishAnimation() {
+        return AnimationHolder.pass();
+    }
 }
