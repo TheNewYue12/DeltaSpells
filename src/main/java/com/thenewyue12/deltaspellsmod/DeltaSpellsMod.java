@@ -2,13 +2,9 @@ package com.thenewyue12.deltaspellsmod;
 
 import com.mojang.logging.LogUtils;
 import com.thenewyue12.deltaspellsmod.entity.spells.rudebuster.RudeBusterRenderer;
-import com.thenewyue12.deltaspellsmod.registry.DSEntityRegistry;
+import com.thenewyue12.deltaspellsmod.registry.*;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.resources.ResourceLocation;
-import com.thenewyue12.deltaspellsmod.registry.DSAttributeRegistry;
-import com.thenewyue12.deltaspellsmod.registry.DSSchoolRegistry;
-import com.thenewyue12.deltaspellsmod.registry.DSSpellRegistry;
-import com.thenewyue12.deltaspellsmod.registry.DSSoundRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.food.FoodProperties;
@@ -84,6 +80,7 @@ public class DeltaSpellsMod
         // Register the Deferred Register to the mod event bus so tabs get registered
         CREATIVE_MODE_TABS.register(modEventBus);
         // Schools
+        DSItemRegistry.register(modEventBus);
         DSSchoolRegistry.register(modEventBus);
         // Attributes
         DSAttributeRegistry.register(modEventBus);
@@ -92,7 +89,6 @@ public class DeltaSpellsMod
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
         DSSoundRegistry.register(modEventBus);
-        DSEntityRegistry.register(modEventBus);
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
