@@ -1,0 +1,12 @@
+{
+  "rudebuster_cast": {
+    "sounds": [
+      "deltaspells:rude_buster_cast"
+    ]
+  },
+  "rudebuster_hit": {
+    "sounds": [
+      "deltaspells:rude_buster_hit"
+    ]
+  }
+}
