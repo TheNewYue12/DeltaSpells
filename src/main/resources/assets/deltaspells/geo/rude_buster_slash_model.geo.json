@@ -3,7 +3,7 @@
 	"minecraft:geometry": [
 		{
 			"description": {
-				"identifier": "geometry.unknown",
+				"identifier": "geometry.rudebusterslash",
 				"texture_width": 128,
 				"texture_height": 128,
 				"visible_bounds_width": 4,
@@ -12,7 +12,7 @@
 			},
 			"bones": [
 				{
-					"name": "rude_buster_projectile",
+					"name": "rude_buster_slash",
 					"pivot": [0, 21, -5],
 					"rotation": [45, 0, 0],
 					"cubes": [

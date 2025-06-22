@@ -1,10 +1,14 @@
 package com.thenewyue12.deltaspellsmod;
 
 import com.mojang.logging.LogUtils;
+import com.thenewyue12.deltaspellsmod.entity.spells.rudebuster.RudeBusterRenderer;
+import com.thenewyue12.deltaspellsmod.registry.DSEntityRegistry;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.resources.ResourceLocation;
 import com.thenewyue12.deltaspellsmod.registry.DSAttributeRegistry;
 import com.thenewyue12.deltaspellsmod.registry.DSSchoolRegistry;
 import com.thenewyue12.deltaspellsmod.registry.DSSpellRegistry;
+import com.thenewyue12.deltaspellsmod.registry.DSSoundRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.food.FoodProperties;
@@ -13,7 +17,6 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.api.distmarker.Dist;
@@ -73,6 +76,7 @@ public class DeltaSpellsMod
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 
+        DSEntityRegistry.register(modEventBus);
         // Register the Deferred Register to the mod event bus so blocks get registered
         BLOCKS.register(modEventBus);
         // Register the Deferred Register to the mod event bus so items get registered
@@ -87,6 +91,8 @@ public class DeltaSpellsMod
         DSSpellRegistry.register(modEventBus);
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
+        DSSoundRegistry.register(modEventBus);
+        DSEntityRegistry.register(modEventBus);
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
@@ -123,6 +129,7 @@ public class DeltaSpellsMod
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+            EntityRenderers.register(DSEntityRegistry.RUDE_BUSTER_SLASH.get(), RudeBusterRenderer::new);
         }
 
     }

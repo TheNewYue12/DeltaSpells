@@ -22,7 +22,7 @@ public class RudeBusterProjectile extends AbstractMagicProjectile {
     }
 
     public RudeBusterProjectile(Level levelIn, LivingEntity shooter) {
-        this(DSEntityRegistry.RUDE_BUSTER_PROJECTILE.get(), levelIn);
+        this(DSEntityRegistry.RUDE_BUSTER_SLASH.get(), levelIn);
         setOwner(shooter);
     }
 

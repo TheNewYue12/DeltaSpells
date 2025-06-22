@@ -34,13 +34,13 @@ public class RudebusterSpell extends AbstractRudeSpell {
             .setMinRarity(SpellRarity.RARE)
             .setSchoolResource(DSSchoolRegistry.RUDE_RESOURCE)
             .setMaxLevel(5)
-            .setCooldownSeconds(25)
+            .setCooldownSeconds(30)
             .build();
 
     public RudebusterSpell() {
         this.manaCostPerLevel = 15;
         this.baseSpellPower = 1;
-        this.spellPowerPerLevel = 1;
+        this.spellPowerPerLevel = 2;
         this.castTime = 20;
         this.baseManaCost = 60;
     }
