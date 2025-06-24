@@ -7,6 +7,7 @@ import com.thenewyue12.deltaspells.registries.DSSoundRegistry;
 import io.redspace.ironsspellbooks.api.config.DefaultConfig;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.spells.*;
+import io.redspace.ironsspellbooks.api.util.AnimationHolder;
 import io.redspace.ironsspellbooks.api.util.Utils;
 import io.redspace.ironsspellbooks.damage.SpellDamageSource;
 import net.minecraft.network.chat.Component;
@@ -20,12 +21,13 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import org.jetbrains.annotations.Nullable;
 
+
 import java.util.List;
 import java.util.Optional;
 
-
+@AutoSpellConfig
 public class RudeBusterSpell  extends AbstractSpell {
-    private final ResourceLocation spellId = new ResourceLocation(DeltaSpells.MODID, "rude_buster");
+    private final ResourceLocation spellId = new ResourceLocation(DeltaSpells.MODID, "rude");
 
     @Override
     public List<MutableComponent> getUniqueInfo(int spellLevel, LivingEntity caster) {
@@ -35,14 +37,14 @@ public class RudeBusterSpell  extends AbstractSpell {
     private final DefaultConfig defaultConfig = new DefaultConfig()
             .setMinRarity(SpellRarity.RARE)
             .setSchoolResource(DSSchoolRegistries.RUDE_RESOURCE)
-            .setMaxLevel(10)
-            .setCooldownSeconds(1)
+            .setMaxLevel(5)
+            .setCooldownSeconds(25)
             .build();
 
     public RudeBusterSpell() {
         this.manaCostPerLevel = 2;
-        this.baseSpellPower = 12;
-        this.spellPowerPerLevel = 1;
+        this.baseSpellPower = 24;
+        this.spellPowerPerLevel = 2;
         this.castTime = 0;
         this.baseManaCost = 10;
     }
@@ -83,6 +85,14 @@ public class RudeBusterSpell  extends AbstractSpell {
     public Optional<SoundEvent> getCastFinishSound() {
         return Optional.of(DSSoundRegistry.RUDE_BUSTER_CAST.get());
     }
+    @Override
+    public AnimationHolder getCastStartAnimation() {
+        return SpellAnimations.ONE_HANDED_HORIZONTAL_SWING_ANIMATION;
+    }
 
+    @Override
+    public AnimationHolder getCastFinishAnimation() {
+        return AnimationHolder.pass();
+    }
 }
 

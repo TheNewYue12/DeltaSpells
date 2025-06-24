@@ -22,6 +22,7 @@ minecraft {
         file('src/main/resources/META-INF/accesstransformer.cfg')
     }
 }
+
 repositories {
     // Add here additional repositories if required by some of the dependencies below.
     maven {

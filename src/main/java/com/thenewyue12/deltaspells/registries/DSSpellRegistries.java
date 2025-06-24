@@ -1,5 +1,6 @@
 package com.thenewyue12.deltaspells.registries;
 import com.thenewyue12.deltaspells.DeltaSpells;
+import io.redspace.ironsspellbooks.api.spells.AutoSpellConfig;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.bus.api.IEventBus;
 import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
@@ -8,6 +9,7 @@ import com.thenewyue12.deltaspells.spells.rude.RudeBusterSpell;
 
 import java.util.function.Supplier;
 
+@AutoSpellConfig
 public class DSSpellRegistries {
     public static final DeferredRegister<AbstractSpell> SPELLS = DeferredRegister.create(SpellRegistry.SPELL_REGISTRY_KEY, DeltaSpells.MODID);
 

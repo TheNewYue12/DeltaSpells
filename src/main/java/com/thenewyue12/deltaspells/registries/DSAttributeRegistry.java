@@ -27,11 +27,14 @@ public class DSAttributeRegistry {
     }
 
     private static DeferredHolder<Attribute, Attribute> newResistanceAttribute(String id) {
-        return (DeferredHolder<Attribute, Attribute>) ATTRIBUTES.register(id + "_magic_resist", () -> (new MagicPercentAttribute("attribute.irons_spellbooks." + id + "_magic_resist", 1.0D, -100, 100).setSyncable(true)));
-    }
+        return ATTRIBUTES.register(id + "_magic_resist", () ->
+                (new MagicRangedAttribute("attribute.deltaspells." + id + "_magic_resist",
+                        1.0D, 0, 10).setSyncable(true)));  }
 
     private static DeferredHolder<Attribute, Attribute> newPowerAttribute(String id) {
-        return ATTRIBUTES.register(id + "_spell_power", () -> (new MagicPercentAttribute("attribute.irons_spellbooks." + id + "_spell_power", 1.0D, -100, 100).setSyncable(true)));
-    }
+
+        return ATTRIBUTES.register(id + "_spell_power", () ->
+                (new MagicRangedAttribute("attribute.deltaspells." + id + "_spell_power",
+                        1.0D, 0, 10).setSyncable(true)));}
 
 }

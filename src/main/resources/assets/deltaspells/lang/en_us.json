@@ -9,5 +9,6 @@
   "deltaspells.configuration.items": "Item List",
   "deltaspells.configuration.logDirtBlock": "Log Dirt Block",
   "deltaspells.configuration.magicNumberIntroduction": "Magic Number Text",
-  "deltaspells.configuration.magicNumber": "Magic Number"
+  "deltaspells.configuration.magicNumber": "Magic Number",
+  "school.deltaspells.rude": "RUDE"
 }
