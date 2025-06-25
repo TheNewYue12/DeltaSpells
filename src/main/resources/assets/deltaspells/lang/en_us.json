@@ -10,5 +10,7 @@
   "deltaspells.configuration.logDirtBlock": "Log Dirt Block",
   "deltaspells.configuration.magicNumberIntroduction": "Magic Number Text",
   "deltaspells.configuration.magicNumber": "Magic Number",
-  "school.deltaspells.rude": "RUDE"
+  "school.deltaspells.rude": "RUDE",
+  "spell.deltaspells.rude_buster": "RUDE BUSTER",
+  "guide.deltaspells.rude_buster": "Deals RUDE damage"
 }

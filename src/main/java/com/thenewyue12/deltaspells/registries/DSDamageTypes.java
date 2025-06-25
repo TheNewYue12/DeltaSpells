@@ -7,7 +7,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageScaling;
 import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.level.levelgen.DebugLevelSource;
 
 public class DSDamageTypes {
 
@@ -23,4 +22,5 @@ public class DSDamageTypes {
         context.register(RUDE_MAGIC, new DamageType(RUDE_MAGIC.location().getPath(), DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f));
 
     }
+
 }

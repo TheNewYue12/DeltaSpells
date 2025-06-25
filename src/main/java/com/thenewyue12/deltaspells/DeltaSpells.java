@@ -1,9 +1,19 @@
 package com.thenewyue12.deltaspells;
 
+import com.thenewyue12.deltaspells.entities.renderers.RendererHelpers.SpellRendererHelper;
+import com.thenewyue12.deltaspells.entities.renderers.rudebuster.RudeBusterRenderer;
 import com.thenewyue12.deltaspells.particles.RudeBusterParticles;
 import com.thenewyue12.deltaspells.registries.*;
+import com.thenewyue12.deltaspells.setup.ClientSetup;
+import io.redspace.ironsspellbooks.registries.ParticleRegistry;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -52,23 +62,10 @@ public class DeltaSpells {
     // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "deltaspells" namespace
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
-    // Creates a new Block with the id "deltaspells:example_block", combining the namespace and path
-    public static final DeferredBlock<Block> EXAMPLE_BLOCK = BLOCKS.registerSimpleBlock("example_block", BlockBehaviour.Properties.of().mapColor(MapColor.STONE));
-    // Creates a new BlockItem with the id "deltaspells:example_block", combining the namespace and path
-    public static final DeferredItem<BlockItem> EXAMPLE_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("example_block", EXAMPLE_BLOCK);
-
     // Creates a new food item with the id "deltaspells:example_id", nutrition 1 and saturation 2
-    public static final DeferredItem<Item> EXAMPLE_ITEM = ITEMS.registerSimpleItem("example_item", new Item.Properties().food(new FoodProperties.Builder()
-            .alwaysEdible().nutrition(1).saturationModifier(2f).build()));
 
-    // Creates a creative tab with the id "deltaspells:example_tab" for the example item, that is placed after the combat tab
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
-            .title(Component.translatable("itemGroup.deltaspells")) //The language key for the title of your CreativeModeTab
-            .withTabsBefore(CreativeModeTabs.TOOLS_AND_UTILITIES)
-            .icon(() -> EXAMPLE_ITEM.get().getDefaultInstance())
-            .displayItems((parameters, output) -> {
-                output.accept(EXAMPLE_ITEM.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
-            }).build());
+    // Creates a creative tab with the id "deltaspells:example_tab" for the example ite
+;
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
@@ -88,11 +85,11 @@ public class DeltaSpells {
 
         DSSpellRegistries.register(modEventBus);
 
-        // DSAttributeRegistry.register(modEventBus);
-
         DSSchoolRegistries.register(modEventBus);
 
         DSEntityRegistry.register(modEventBus);
+
+        DSAttributeRegistry.register(modEventBus);
 
         DSSoundRegistry.register(modEventBus);
 
@@ -103,8 +100,6 @@ public class DeltaSpells {
         NeoForge.EVENT_BUS.register(this);
 
         // Register the item to a creative tab
-        modEventBus.addListener(this::addCreative);
-
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
@@ -122,12 +117,6 @@ public class DeltaSpells {
         Config.ITEM_STRINGS.get().forEach((item) -> LOGGER.info("ITEM >> {}", item));
     }
 
-    // Add the example block item to the building blocks tab
-    private void addCreative(BuildCreativeModeTabContentsEvent event) {
-        if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
-            event.accept(EXAMPLE_BLOCK_ITEM);
-        }
-    }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
@@ -137,16 +126,19 @@ public class DeltaSpells {
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-  public static class ClientModEvents {
+
+    @EventBusSubscriber(modid = DeltaSpells.MODID, bus = EventBusSubscriber.Bus.MOD)
+
+    public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-            // Some client setup code
-            LOGGER.info("HELLO FROM CLIENT SETUP");
-            LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+
+
         }
-        @SubscribeEvent
-        public static void registerParticleFactories(RegisterParticleProvidersEvent event){
-event.registerSpriteSet(DSParticlesRegistry.RUDE_BUSTER_PARTICLES.get(), RudeBusterParticles.Provider::new);
-        }
+
+    }
+
+    public static ResourceLocation id(@NotNull String path) {
+        return new ResourceLocation(DeltaSpells.MODID, path);
     }
 }

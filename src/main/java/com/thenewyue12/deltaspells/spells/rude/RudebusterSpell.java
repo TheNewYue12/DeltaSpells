@@ -1,63 +1,73 @@
 package com.thenewyue12.deltaspells.spells.rude;
 
+
 import com.thenewyue12.deltaspells.DeltaSpells;
-import com.thenewyue12.deltaspells.entities.spells.rudebuster.RudeBusterProjectile;
 import com.thenewyue12.deltaspells.registries.DSSchoolRegistries;
-import com.thenewyue12.deltaspells.registries.DSSoundRegistry;
+import com.thenewyue12.deltaspells.util.DSUtils;
 import io.redspace.ironsspellbooks.api.config.DefaultConfig;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
+import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
 import io.redspace.ironsspellbooks.api.spells.*;
 import io.redspace.ironsspellbooks.api.util.AnimationHolder;
 import io.redspace.ironsspellbooks.api.util.Utils;
-import io.redspace.ironsspellbooks.damage.SpellDamageSource;
+import com.thenewyue12.deltaspells.entities.spells.rudebuster.RudeBusterProjectile;
+import com.thenewyue12.deltaspells.registries.DSSoundRegistry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.registries.DeferredHolder;
-import org.jetbrains.annotations.Nullable;
 
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 
 @AutoSpellConfig
-public class RudeBusterSpell  extends AbstractSpell {
-    private final ResourceLocation spellId = new ResourceLocation(DeltaSpells.MODID, "rude");
+public class RudebusterSpell extends AbstractRudeSpell {
+    private final ResourceLocation spellId = new ResourceLocation(DeltaSpells.MODID, "rude_buster");
+    private final ResourceLocation SchoolRescource = new ResourceLocation(DeltaSpells.MODID, "rude");
 
     @Override
     public List<MutableComponent> getUniqueInfo(int spellLevel, LivingEntity caster) {
-        return List.of(Component.translatable("ui.irons_spellbooks.damage", Utils.stringTruncation(getDamage(spellLevel, caster), 2)));
+        return List.of(
+                Component.translatable("ui.irons_spellbooks.damage", Utils.stringTruncation(getDamage(spellLevel, caster), 2))
+                  );
     }
+
 
     private final DefaultConfig defaultConfig = new DefaultConfig()
             .setMinRarity(SpellRarity.RARE)
             .setSchoolResource(DSSchoolRegistries.RUDE_RESOURCE)
             .setMaxLevel(5)
-            .setCooldownSeconds(25)
+            .setCooldownSeconds(30)
             .build();
-
-    public RudeBusterSpell() {
-        this.manaCostPerLevel = 2;
-        this.baseSpellPower = 24;
-        this.spellPowerPerLevel = 2;
-        this.castTime = 0;
-        this.baseManaCost = 10;
-    }
-
-    @Override
-    public CastType getCastType() {
-        return CastType.INSTANT;
-    }
 
     @Override
     public DefaultConfig getDefaultConfig() {
         return defaultConfig;
     }
+
+    public RudebusterSpell() {
+        this.manaCostPerLevel = 15;
+        this.baseSpellPower = 1;
+        this.spellPowerPerLevel = 2;
+        this.castTime = 1;
+        this.baseManaCost = 60;
+    }
+
+    @Override
+    public CastType getCastType() {
+        return CastType.LONG;
+    }
+
 
     @Override
     public ResourceLocation getSpellResource() {
@@ -66,33 +76,38 @@ public class RudeBusterSpell  extends AbstractSpell {
 
     @Override
     public void onCast(Level world, int spellLevel, LivingEntity entity, CastSource castSource, MagicData playerMagicData) {
-        RudeBusterProjectile rudebuster = new RudeBusterProjectile(world, entity);
-        rudebuster.setPos(entity.position().add(0, entity.getEyeHeight() - rudebuster.getBoundingBox().getYsize() * .5f, 0));
-        rudebuster.shoot(entity.getLookAngle());
-        rudebuster.setDamage(getDamage(spellLevel, entity));
-        world.addFreshEntity(rudebuster);
+
+        RudeBusterProjectile RudeBuster = new RudeBusterProjectile(world, entity);
+        RudeBuster.setPos(entity.position().add(0, entity.getEyeHeight() - RudeBuster.getBoundingBox().getYsize() * .5f, 0));
+        RudeBuster.shoot(entity.getLookAngle());
+        RudeBuster.setYRot(entity.getYHeadRot());
+        RudeBuster.setXRot(entity.getXRot());
+        RudeBuster.setDamage(getDamage(spellLevel, entity));
+        world.addFreshEntity(RudeBuster);
         super.onCast(world, spellLevel, entity, castSource, playerMagicData);
     }
 
-    @Override
-    public SpellDamageSource getDamageSource(@Nullable Entity projectile, Entity attacker) {
-        return super.getDamageSource(projectile, attacker).setFireTicks(60);
+
+    private float getDamage(int spellLevel, LivingEntity caster)
+    {
+
+        return 5 + 5 * getSpellPower(spellLevel, caster);
     }
 
-    private float getDamage(int spellLevel, LivingEntity entity) {
-        return getSpellPower(spellLevel, entity) * .5f;
-    }@Override
+    @Override
     public Optional<SoundEvent> getCastFinishSound() {
         return Optional.of(DSSoundRegistry.RUDE_BUSTER_CAST.get());
     }
+
+
     @Override
     public AnimationHolder getCastStartAnimation() {
-        return SpellAnimations.ONE_HANDED_HORIZONTAL_SWING_ANIMATION;
+        return SpellAnimations.OVERHEAD_MELEE_SWING_ANIMATION;
     }
 
     @Override
     public AnimationHolder getCastFinishAnimation() {
         return AnimationHolder.pass();
     }
-}
 
+}

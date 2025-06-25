@@ -1,11 +1,11 @@
 package com.thenewyue12.deltaspells.registries;
 import com.thenewyue12.deltaspells.DeltaSpells;
+import com.thenewyue12.deltaspells.spells.rude.RudebusterSpell;
 import io.redspace.ironsspellbooks.api.spells.AutoSpellConfig;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.bus.api.IEventBus;
 import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
-import com.thenewyue12.deltaspells.spells.rude.RudeBusterSpell;
 
 import java.util.function.Supplier;
 
@@ -21,5 +21,5 @@ public class DSSpellRegistries {
         return SPELLS.register(spell.getSpellName(), () -> spell);
     }
 
-    public static final Supplier<AbstractSpell> RUDE_BUSTER = registerSpell(new RudeBusterSpell());
+    public static final Supplier<AbstractSpell> RUDE_BUSTER = registerSpell(new RudebusterSpell());
 }
