@@ -11,8 +11,17 @@ import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackLocationInfo;
+import net.minecraft.server.packs.PackSelectionConfig;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.PathPackResources;
+import net.minecraft.server.packs.repository.BuiltInPackSource;
+import net.minecraft.server.packs.repository.Pack;
+import net.minecraft.server.packs.repository.PackSource;
 import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
+import net.neoforged.neoforge.event.AddPackFindersEvent;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
@@ -46,6 +55,9 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.fml.common.EventBusSubscriber;
+
+import java.io.IOException;
+import java.util.Optional;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(DeltaSpells.MODID)
@@ -116,8 +128,29 @@ public class DeltaSpells {
 
         Config.ITEM_STRINGS.get().forEach((item) -> LOGGER.info("ITEM >> {}", item));
     }
-
-
+    public void addPackFinders(AddPackFindersEvent event) {
+        DeltaSpells.LOGGER.debug("addPackFinders");
+        try {
+            if (event.getPackType() == PackType.CLIENT_RESOURCES) {
+                addBuiltinPack(event, "deltaspells_misc_music", Component.literal("Legacy Dead King"));
+            }
+        } catch (IOException ex) {
+            DeltaSpells.LOGGER.error("Failed to load a builtin resource pack! If you are seeing this message, please report an issue to https://github.com/iron431/Irons-Spells-n-Spellbooks/issues");
+            // throw new RuntimeException(ex);
+        }
+    }
+    private static void addBuiltinPack(AddPackFindersEvent event, String filename, Component displayName) throws IOException {
+        filename = "builtin_resource_packs/" + filename;
+        String id = "builtin/" + filename;
+        var resourcePath = ModList.get().getModFileById(MODID).getFile().findResource(filename);
+        var pack = Pack.readMetaAndCreate(
+                new PackLocationInfo(id, displayName, PackSource.BUILT_IN, Optional.empty()),
+                BuiltInPackSource.fromName((path) -> new PathPackResources(path, resourcePath)),
+                PackType.CLIENT_RESOURCES,
+                new PackSelectionConfig(false, Pack.Position.TOP, false)
+        );
+        event.addRepositorySource((packConsumer) -> packConsumer.accept(pack));
+    }
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {

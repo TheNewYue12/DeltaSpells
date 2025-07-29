@@ -8,5 +8,10 @@
     "sounds": [
       "deltaspells:rude_buster_hit"
     ]
+  },
+  "audio_defeat": {
+    "sounds": [
+      "deltaspells:gameover_track"
+    ]
   }
 }

@@ -14,6 +14,7 @@ public class DSSoundRegistry {
 
     public static DeferredHolder<SoundEvent, SoundEvent> RUDE_BUSTER_HIT = registerSoundEvent("rude_buster_hit");
     public static DeferredHolder<SoundEvent, SoundEvent> RUDE_BUSTER_CAST = registerSoundEvent("rude_buster_cast");
+    public static DeferredHolder<SoundEvent, SoundEvent> AUDIO_DEFEAT = registerSoundEvent("gameover_track");
 
     private static DeferredHolder<SoundEvent, SoundEvent> registerSoundEvent(String name)
     {

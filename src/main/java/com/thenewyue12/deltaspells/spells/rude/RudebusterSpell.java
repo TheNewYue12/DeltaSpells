@@ -12,6 +12,7 @@ import io.redspace.ironsspellbooks.api.util.AnimationHolder;
 import io.redspace.ironsspellbooks.api.util.Utils;
 import com.thenewyue12.deltaspells.entities.spells.rudebuster.RudeBusterProjectile;
 import com.thenewyue12.deltaspells.registries.DSSoundRegistry;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -21,6 +22,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -33,7 +35,6 @@ import java.util.Optional;
 @AutoSpellConfig
 public class RudebusterSpell extends AbstractRudeSpell {
     private final ResourceLocation spellId = new ResourceLocation(DeltaSpells.MODID, "rude_buster");
-    private final ResourceLocation SchoolRescource = new ResourceLocation(DeltaSpells.MODID, "rude");
 
     @Override
     public List<MutableComponent> getUniqueInfo(int spellLevel, LivingEntity caster) {
@@ -59,7 +60,7 @@ public class RudebusterSpell extends AbstractRudeSpell {
         this.manaCostPerLevel = 15;
         this.baseSpellPower = 1;
         this.spellPowerPerLevel = 2;
-        this.castTime = 1;
+        this.castTime = 20;
         this.baseManaCost = 60;
     }
 
@@ -76,17 +77,15 @@ public class RudebusterSpell extends AbstractRudeSpell {
 
     @Override
     public void onCast(Level world, int spellLevel, LivingEntity entity, CastSource castSource, MagicData playerMagicData) {
-
+        playSound(Optional.of(DSSoundRegistry.RUDE_BUSTER_CAST.get()),entity);
+        var plrPos = entity.position();
         RudeBusterProjectile RudeBuster = new RudeBusterProjectile(world, entity);
         RudeBuster.setPos(entity.position().add(0, entity.getEyeHeight() - RudeBuster.getBoundingBox().getYsize() * .5f, 0));
         RudeBuster.shoot(entity.getLookAngle());
-        RudeBuster.setYRot(entity.getYHeadRot());
-        RudeBuster.setXRot(entity.getXRot());
         RudeBuster.setDamage(getDamage(spellLevel, entity));
         world.addFreshEntity(RudeBuster);
         super.onCast(world, spellLevel, entity, castSource, playerMagicData);
     }
-
 
     private float getDamage(int spellLevel, LivingEntity caster)
     {
@@ -94,10 +93,6 @@ public class RudebusterSpell extends AbstractRudeSpell {
         return 5 + 5 * getSpellPower(spellLevel, caster);
     }
 
-    @Override
-    public Optional<SoundEvent> getCastFinishSound() {
-        return Optional.of(DSSoundRegistry.RUDE_BUSTER_CAST.get());
-    }
 
 
     @Override
